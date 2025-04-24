@@ -1,0 +1,228 @@
+﻿<UserControl x:Class="RestauranteGestion.Views.EdicionRecetaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+          Background="White"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="800">
+
+  
+
+    <Grid Background="{DynamicResource MaterialDesignPaper}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header with Contextual Help -->
+        <Border Grid.Row="0" Background="#FF3F51B5"  Padding="16">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" >
+                <materialDesign:PackIcon Kind="BookEdit" 
+                                        Foreground="White" 
+                                        Width="32" 
+                                        Height="32"
+                                        Margin="0,0,12,0"/>
+                <TextBlock Text="EDITOR DE RECETAS" 
+                         FontSize="20" 
+                         FontWeight="SemiBold" 
+                         Foreground="White"/>
+                <Button Style="{StaticResource MaterialDesignIconButton}"
+                        Foreground="White"
+                        Margin="10,0,0,0"
+                        ToolTip="Ayuda rápida">
+                    <materialDesign:PackIcon Kind="HelpCircle"/>
+                </Button>
+            </StackPanel>
+        </Border>
+
+        <!-- Product Selection with Visual Feedback -->
+        <Border Grid.Row="1" Margin="16,12" Padding="12" Background="{DynamicResource MaterialDesignCardBackground}"
+                CornerRadius="4" BorderBrush="{DynamicResource MaterialDesignDivider}" BorderThickness="1">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <ComboBox ItemsSource="{Binding Productos}"
+                        SelectedItem="{Binding SelectedProducto}"
+                        DisplayMemberPath="NombreProducto"
+                        Width="280"
+                        materialDesign:HintAssist.Hint="Seleccione un producto"
+                       
+                        ToolTip="Seleccione el producto a modificar">
+                    <ComboBox.Style>
+                        <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignFloatingHintComboBox}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SelectedProducto}" Value="{x:Null}">
+                                    <Setter Property="BorderBrush" Value="{DynamicResource ErrorHueMidBrush}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.Style>
+                </ComboBox>
+
+                <Button Command="{Binding LoadRecetaCommand}" 
+                        Content="CARGAR RECETA"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                        Margin="16,0,0,0"
+                        ToolTip="Cargar receta existente">
+                   
+                </Button>
+            </StackPanel>
+        </Border>
+
+        <!-- Add Ingredient Section with Validation -->
+        <GroupBox Grid.Row="2" Header="INGREDIENTES" Margin="16,0" Padding="12"
+                 Style="{StaticResource MaterialDesignGroupBox}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Quick Add Form -->
+                <Border Grid.Row="0" Margin="0,0,0,12" Padding="12" Background="{DynamicResource MaterialDesignCardBackground}"
+                       CornerRadius="4">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Ingredient Search with Autocomplete -->
+                        <ComboBox Grid.Column="0" 
+                                ItemsSource="{Binding IngredientesDisponibles}"
+                                SelectedItem="{Binding NuevoIngrediente}"
+                                DisplayMemberPath="NombreIngrediente"
+                                materialDesign:HintAssist.Hint="Buscar ingrediente..."
+                                Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                IsEditable="True"
+                                IsTextSearchEnabled="True"
+                                Margin="0,0,8,0"/>
+
+                        <TextBox Grid.Column="1" 
+                               Text="{Binding NuevaCantidad, UpdateSourceTrigger=PropertyChanged}"
+                               Width="100"
+                               materialDesign:HintAssist.Hint="Cantidad"
+                              
+                               InputScope="Number"/>
+
+                        <ComboBox Grid.Column="2" 
+          ItemsSource="{Binding Unidades}"
+          SelectedItem="{Binding NuevaUnidad}"
+          DisplayMemberPath="Nombre"
+          Width="120"
+          materialDesign:HintAssist.Hint="Unidad"
+          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+          Margin="8,0"/>
+
+                        <Button Grid.Column="3" 
+                              Command="{Binding AddIngredienteCommand}"
+                                Background="#FF3F51B5"
+                              Content="AGREGAR"
+                              Style="{StaticResource MaterialDesignRaisedButton}"
+                             
+                              Margin="8,0"/>
+
+                        <Button Grid.Column="4" 
+                              Command="{Binding ClearFormCommand}"
+                              Content="LIMPIAR"
+                              Style="{StaticResource MaterialDesignOutlinedButton}"
+                              Margin="8,0"/>
+                    </Grid>
+                </Border>
+
+                <!-- Interactive Ingredients List -->
+                <DataGrid Grid.Row="1" 
+                        ItemsSource="{Binding IngredientesReceta}" 
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        IsReadOnly="True"
+                        SelectionMode="Single"
+                        Style="{StaticResource MaterialDesignDataGrid}"
+                       >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="INGREDIENTE" 
+                                          Binding="{Binding Ingrediente.NombreIngrediente}" 
+                                          Width="2*"/>
+
+                        <DataGridTextColumn Header="CANTIDAD" 
+                                          Binding="{Binding Cantidad}" 
+                                          Width="*">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Header="UNIDAD" 
+                                          Binding="{Binding Unidad.Nombre}" 
+                                          Width="*"/>
+
+                        <DataGridTemplateColumn Header="ACCIONES" Width="140">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Command="{Binding DataContext.EditIngredienteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                              CommandParameter="{Binding}"
+                                              Style="{StaticResource MaterialDesignToolButton}"
+                                              ToolTip="Editar ingrediente">
+                                            <materialDesign:PackIcon Kind="Pencil" 
+                                                                   Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                                        </Button>
+
+                                        <Button Command="{Binding DataContext.DeleteIngredienteCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                              CommandParameter="{Binding}"
+                                              Style="{StaticResource MaterialDesignToolButton}"
+                                              ToolTip="Eliminar ingrediente"
+                                              Margin="8,0,0,0">
+                                            <materialDesign:PackIcon Kind="Delete" 
+                                                                   Foreground="{DynamicResource ErrorHueMidBrush}"/>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </GroupBox>
+
+        <!-- Status and Actions -->
+        <Border Grid.Row="3" Background="{DynamicResource MaterialDesignToolBarBackground}" Padding="16">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Validation Messages -->
+                <TextBlock Text="{Binding MensajeEstado}"
+                         Foreground="{DynamicResource ErrorHueMidBrush}"
+               
+                         VerticalAlignment="Center"/>
+
+                <!-- Action Buttons -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button Command="{Binding SaveRecetaCommand}" 
+                          Content="GUARDAR CAMBIOS"
+                          Style="{StaticResource MaterialDesignRaisedButton}"
+                         Background="#FF3F51B5"
+                          Width="180"
+                          Margin="0,0,8,0">
+                      
+                    </Button>
+
+                    <Button Command="{Binding CancelCommand}" 
+                          Content="CANCELAR"
+                          Style="{StaticResource MaterialDesignOutlinedButton}"
+                          Width="120"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

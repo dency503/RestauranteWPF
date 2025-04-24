@@ -1,0 +1,138 @@
+﻿<UserControl x:Class="RestauranteGestion.Views.ReportesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1366">
+
+    <Grid Margin="16">
+        <TabControl>
+            <!-- Reporte de Ventas -->
+            <TabItem Header="Ventas">
+                <ScrollViewer>
+                    <StackPanel>
+                        <!-- Filtros -->
+                        <materialDesign:Card Margin="0,0,0,16" Padding="16">
+                            <StackPanel Orientation="Horizontal">
+                                <DatePicker SelectedDate="{Binding FechaInicio}" 
+                                            Margin="0,0,16,0"
+                                            materialDesign:HintAssist.Hint="Fecha inicio"/>
+                                <DatePicker SelectedDate="{Binding FechaFin}" 
+                                            Margin="0,0,16,0"
+                                            materialDesign:HintAssist.Hint="Fecha fin"/>
+                                <Button Content="Generar Reporte" 
+                                        Command="{Binding GenerarReporteVentasCommand}"
+                                        Style="{StaticResource MaterialDesignRaisedButton}"
+                                        Width="180"/>
+                                <Button Content="Exportar a PDF" 
+                                        Command="{Binding ExportarPDFCommand}"
+                                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                                        Margin="16,0,0,0"
+                                        Width="120"/>
+                            </StackPanel>
+                        </materialDesign:Card>
+
+                        <!-- Gráficos -->
+                        <lvc:CartesianChart Series="{Binding VentasSeries}" LegendLocation="Right" Height="300">
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis Title="Fecha" Labels="{Binding Fechas}"/>
+                            </lvc:CartesianChart.AxisX>
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Title="Ventas ($)"/>
+                            </lvc:CartesianChart.AxisY>
+                        </lvc:CartesianChart>
+
+                        <!-- Tabla detallada -->
+                        <DataGrid ItemsSource="{Binding VentasDetalle}" 
+                                AutoGenerateColumns="False"
+                                IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha, StringFormat=dd/MM/yyyy}"/>
+                                <DataGridTextColumn Header="Total Ventas" Binding="{Binding TotalVentas, StringFormat=C}"/>
+                                <DataGridTextColumn Header="Promedio por Orden" Binding="{Binding PromedioOrden, StringFormat=C}"/>
+                                <DataGridTextColumn Header="Órdenes" Binding="{Binding CantidadOrdenes}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Reporte de Inventario -->
+            <TabItem Header="Inventario">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Filtros -->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
+                        <ComboBox ItemsSource="{Binding CategoriasInventario}"
+                                SelectedItem="{Binding CategoriaSeleccionada}"
+                                DisplayMemberPath="NombreCategoria"
+                                Width="200"
+                                Margin="0,0,16,0"
+                                materialDesign:HintAssist.Hint="Categoría"/>
+                        <Button Content="Generar Reporte" 
+                              Command="{Binding GenerarReporteInventarioCommand}"
+                              Style="{StaticResource MaterialDesignRaisedButton}"
+                              Width="180"/>
+                    </StackPanel>
+
+                    <!-- Datos -->
+                    <DataGrid Grid.Row="1" 
+                            ItemsSource="{Binding Inventario}" 
+                            AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Producto/Ingrediente" Binding="{Binding Nombre}"/>
+                            <DataGridTextColumn Header="Stock Actual" Binding="{Binding Stock}"/>
+                            <DataGridTextColumn Header="Stock Mínimo" Binding="{Binding StockMinimo}"/>
+                            <DataGridTextColumn Header="Último Movimiento" 
+                                            Binding="{Binding UltimoMovimiento, StringFormat=dd/MM/yyyy}"/>
+                            <DataGridTextColumn Header="Estado" Binding="{Binding Estado}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <!-- Reporte de Empleados -->
+            <TabItem Header="Empleados">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Filtros -->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16">
+                        <DatePicker SelectedDate="{Binding FechaInicioEmpleados}" 
+                                  Margin="0,0,16,0"
+                                  materialDesign:HintAssist.Hint="Fecha inicio"/>
+                        <DatePicker SelectedDate="{Binding FechaFinEmpleados}" 
+                                  Margin="0,0,16,0"
+                                  materialDesign:HintAssist.Hint="Fecha fin"/>
+                        <Button Content="Generar Reporte" 
+                              Command="{Binding GenerarReporteEmpleadosCommand}"
+                              Style="{StaticResource MaterialDesignRaisedButton}"
+                              Width="180"/>
+                    </StackPanel>
+
+                    <!-- Datos -->
+                    <DataGrid Grid.Row="1" 
+                            ItemsSource="{Binding Empleados}" 
+                            AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Nombre" Binding="{Binding NombreCompleto}"/>
+                            <DataGridTextColumn Header="Ventas Realizadas" Binding="{Binding VentasRealizadas}"/>
+                            <DataGridTextColumn Header="Total Vendido" Binding="{Binding TotalVendido, StringFormat=C}"/>
+                            <DataGridTextColumn Header="Promedio por Venta" Binding="{Binding PromedioVenta, StringFormat=C}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

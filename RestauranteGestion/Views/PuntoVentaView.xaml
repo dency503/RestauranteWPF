@@ -1,0 +1,76 @@
+﻿<UserControl
+    x:Class="RestauranteGestion.Views.PuntoVentaView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:local="clr-namespace:RestauranteGestion.Views"
+    Height="510" Width="862">
+    <Grid Background="AliceBlue"
+          Margin="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="364*" />
+            <ColumnDefinition Width="201*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- BUSCADOR -->
+        <DockPanel Grid.ColumnSpan="2" Margin="4,4,4,4" LastChildFill="True">
+            <TextBox Width="300"
+                     materialDesign:HintAssist.Hint="Buscar productos por nombre, código o barra"
+                     VerticalAlignment="Center"
+                     Margin="4"
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+        </DockPanel>
+
+        <!-- TABLA DE PRODUCTOS -->
+        <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="1" Margin="4,4,4,4">
+            <DataGrid ItemsSource="{Binding ProductosOrdenados}"
+                      AutoGenerateColumns="False"
+                      Background="Transparent"
+                      Foreground="White"
+                      HeadersVisibility="Column"
+                      Style="{StaticResource MaterialDesignDataGrid}" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Nombre del producto" Binding="{Binding Nombre}" Width="*" />
+                    <DataGridTextColumn Header="Cantidad" Binding="{Binding Cantidad}" Width="Auto" />
+                    <DataGridTextColumn Header="Precio" Binding="{Binding Precio}" Width="Auto" />
+                    <DataGridTextColumn Header="Total" Binding="{Binding Total}" Width="Auto" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+
+        <!-- BOTONES DE ACCIÓN DERECHA -->
+        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical" Margin="4,4,4,4">
+            <WrapPanel Orientation="Horizontal" Margin="0,0,0,8">
+                <Button Content="Eliminar" Style="{StaticResource MaterialDesignFlatButton}" />
+                <Button Content="Buscar (F3)" Style="{StaticResource MaterialDesignFlatButton}" />
+                <Button Content="Cantidad (F4)" Style="{StaticResource MaterialDesignFlatButton}" />
+                <Button Content="Nueva venta (F8)" Style="{StaticResource MaterialDesignFlatButton}" />
+            </WrapPanel>
+
+            <WrapPanel Orientation="Horizontal" Margin="0,0,0,8">
+                <Button Content="Efectivo" Style="{StaticResource MaterialDesignFlatButton}" />
+                <Button Content="QR" Style="{StaticResource MaterialDesignFlatButton}" />
+                <Button Content="Wompi" Style="{StaticResource MaterialDesignFlatButton}" />
+                <Button Content="Transferencia" Style="{StaticResource MaterialDesignFlatButton}" />
+            </WrapPanel>
+
+            <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
+                <Button Content="Guardar venta (F9)" Style="{StaticResource MaterialDesignRaisedButton}" Margin="0,4" />
+                <Button Content="F10 PAGO" Background="Green" Foreground="White" FontWeight="Bold" Style="{StaticResource MaterialDesignRaisedButton}" Margin="0,4" />
+                <Button Content="Anular orden" Background="Red" Foreground="White" Style="{StaticResource MaterialDesignRaisedButton}" Margin="0,4" />
+            </StackPanel>
+        </StackPanel>
+
+        <!-- PIE DE TOTAL -->
+        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical" Margin="8,8,8,8">
+            <TextBlock Text="Subtotal: 0.00" Foreground="White" FontSize="14" />
+            <TextBlock Text="Impuestos: 0.00" Foreground="White" FontSize="14" />
+            <TextBlock Text="TOTAL: 0.00" Foreground="White" FontSize="18" FontWeight="Bold" />
+        </StackPanel>
+    </Grid>
+</UserControl>

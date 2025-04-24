@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="RestauranteGestion.Views.ProductoDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Height="500" Width="400"
+             Background="White">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="0 0 0 10"
+                    materialDesign:TextFieldAssist.DecorationVisibility="Hidden">
+
+            <TextBox Text="{Binding Producto.NombreProducto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+                     materialDesign:HintAssist.Hint="Nombre del Producto*"
+                     Margin="0,5">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding GuardarCommand}" />
+                </TextBox.InputBindings>
+            </TextBox>
+
+            <TextBox Text="{Binding Producto.CostoUnitario, StringFormat=N2}"
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                     materialDesign:HintAssist.Hint="Costo Unitario*"
+                     Margin="0,5"/>
+
+            <TextBox Text="{Binding Producto.PrecioVenta, StringFormat=N2}" 
+         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+         materialDesign:HintAssist.Hint="Precio de Venta*"
+         Margin="0,5"/>
+
+
+            <TextBox Text="{Binding Producto.Stock, StringFormat=N2}"
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                     materialDesign:HintAssist.Hint="Stock*"
+                     Margin="0,5"/>
+
+            <ComboBox x:Name="cmbCategoria"
+          Margin="0,5"
+          materialDesign:HintAssist.Hint="Categoría*"
+          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+          ItemsSource="{Binding Categorias}"
+          SelectedItem="{Binding CategoriaSeleccionada, Mode=TwoWay}"
+          DisplayMemberPath="NombreCategoria"
+          SelectedValuePath="IdCategoria" />
+
+
+            <TextBox Text="{Binding Producto.Imagen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                     materialDesign:HintAssist.Hint="Ruta de Imagen (opcional)"
+                     Margin="0,5"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0 20 0 0">
+            
+
+            <Button Content="Cancelar"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Command="{Binding CancelarCommand}"
+                    Width="100" />
+            <Button Content="Guardar"
+        Style="{StaticResource MaterialDesignRaisedButton}"
+        Command="{Binding GuardarCommand}"
+        Margin="0 0 10 0"
+        Width="100" />
+        </StackPanel>
+    </Grid>
+</UserControl>
