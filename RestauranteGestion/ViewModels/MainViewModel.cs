@@ -1,17 +1,28 @@
-﻿using RestauranteGestion.Services;
+﻿using System.Windows;
+using System.Windows.Input;
+using RestauranteGestion;
+using RestauranteGestion.Services;
 using RestauranteGestion.ViewModels.Base;
 using RestauranteGestion.Views;
-using System.Windows.Input;
-using System.Windows;
 
 public class MainViewModel : ViewModelBase
 {
     private readonly INavigationService _navigationService;
+    private bool _isSidebarVisible;
+
+    public bool IsSidebarVisible
+    {
+        get => _isSidebarVisible;
+        set { _isSidebarVisible = value; OnPropertyChanged(); }
+    }
 
     public MainViewModel()
     {
+        IsSidebarVisible = false;
         _navigationService = ServiceLocator.NavigationService;
-
+        ServiceLocator.MainViewModel = this;
+        // Registrar el MainViewModel en el ServiceLocator
+        EventBus.LoginSucceeded += () => IsSidebarVisible = true;
     }
 
     private ICommand _navigateCommand;
@@ -46,5 +57,10 @@ public class MainViewModel : ViewModelBase
                 MessageBox.Show($"Vista '{viewName}' no implementada");
                 break;
         }
+    }
+
+    public void SetSidebarVisibility(bool isVisible)
+    {
+        IsSidebarVisible = isVisible;
     }
 }

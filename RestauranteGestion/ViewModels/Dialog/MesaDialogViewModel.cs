@@ -16,7 +16,7 @@ public class MesaDialogViewModel : INotifyPropertyChanged
     public Mesa Mesa { get; set; }
     public string Titulo { get; set; }
 
-    private ObservableCollection<string> _estados;
+   
     private string _estadoSeleccionado;
     private readonly MesaService _mesaService;
 

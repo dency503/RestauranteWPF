@@ -9,6 +9,13 @@ namespace RestauranteGestion.Services
     public static class ServiceLocator
     {
         public static INavigationService NavigationService { get; set; }
+        public static MainViewModel MainViewModel { get; set; }
+
+        static ServiceLocator()
+        {
+            // Aquí registras tus servicios y viewmodels
+            MainViewModel = new MainViewModel();
+        }
     }
 
 }

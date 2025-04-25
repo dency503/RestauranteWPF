@@ -1,16 +1,21 @@
 ﻿<Application x:Class="RestauranteGestion.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-            >
+             xmlns:local="clr-namespace:RestauranteGestion"
+             xmlns:localC="clr-namespace:RestauranteGestion.Converters"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes">
+
     <Application.Resources>
         <ResourceDictionary>
+            <!-- Convierte valores booleanos a visibilidad -->
+            <localC:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+
+            <!-- Diccionarios de recursos de Material Design -->
             <ResourceDictionary.MergedDictionaries>
-                <!-- Material Design resources -->
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml"/>
 
-
-                <!-- Colores (opcional) -->
+                <!-- Colores opcionales de Material Design -->
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Indigo.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Secondary/MaterialDesignColor.Amber.xaml"/>
             </ResourceDictionary.MergedDictionaries>

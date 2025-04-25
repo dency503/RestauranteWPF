@@ -77,7 +77,7 @@ namespace RestauranteGestion.ViewModels
                 {
                     _selectedProducto = value;
                     OnPropertyChanged();
-                    CargarRecetaAsync();
+                   _ = CargarRecetaAsync();
                 }
             }
         }

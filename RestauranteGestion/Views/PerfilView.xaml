@@ -48,7 +48,7 @@
                         </Grid.RowDefinitions>
 
                         <!-- Columna izquierda -->
-                        <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Nombre}" materialDesign:HintAssist.Hint="Nombre"   Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+                        <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Nombre}" materialDesign:HintAssist.Hint="Nombre"   Style="{StaticResource MaterialDesignOutlinedTextBox}"  
                                  Margin="0,0,10,10" />
                         <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Telefono}" materialDesign:HintAssist.Hint="Teléfono"  Style="{StaticResource MaterialDesignOutlinedTextBox}" 
                                  Margin="0,0,10,10" />

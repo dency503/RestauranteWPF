@@ -19,7 +19,8 @@ namespace RestauranteGestion
             var mainWindow = new MainWindow();
             var navigationService = new NavigationService(mainWindow.MainContentControl); // <- esto debe ser un ContentControl con x:Name
             ServiceLocator.NavigationService = navigationService;
-            navigationService.NavigateTo<DashboardView>();
+            navigationService.NavigateTo<LoginView>();
+
             mainWindow.DataContext = new MainViewModel(); // <- ya podrá usar el NavigationService
             mainWindow.Show();
         }

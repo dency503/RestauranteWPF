@@ -51,7 +51,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Menú lateral -->
-        <Border Grid.Column="0" Background="#FF2D2D30" CornerRadius="10,0,0,10">
+        <Border Grid.Column="0" Background="#FF2D2D30" CornerRadius="10,0,0,10" Visibility="{Binding IsSidebarVisible, Converter={StaticResource BoolToVisibilityConverter}}">
             <StackPanel Margin="5">
                 <TextBlock Text="Restaurante Gestión" 
                          Foreground="White" 
