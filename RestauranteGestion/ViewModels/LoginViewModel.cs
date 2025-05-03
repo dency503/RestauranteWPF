@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using RestauranteGestion.Models;
 using RestauranteGestion.Services;
+using RestauranteGestion.SesionManager;
 using RestauranteGestion.ViewModels.Base;
 using RestauranteGestion.Views;
 
@@ -75,8 +76,8 @@ namespace RestauranteGestion.ViewModels
         }
         private bool PuedeIniciarSesion()
         {
-            //Debug.WriteLine($"Evaluando CanExecute: Usuario='{Usuario}', Contraseña='{Contrasenia}'");
-            return !string.IsNullOrWhiteSpace(Usuario) && !string.IsNullOrWhiteSpace(Contrasenia);
+            Debug.WriteLine($"Evaluando CanExecute: Usuario='{Usuario}', Contraseña='{Contrasenia}'");
+            return !string.IsNullOrWhiteSpace(Usuario) && !string.IsNullOrWhiteSpace(Contrasenia) && EstaCargando != true;
         }
 
 
@@ -90,9 +91,14 @@ namespace RestauranteGestion.ViewModels
 
             if (resultado != null)
             {
+                Sesion sesion = Sesion.ObtenerInstancia();
+                sesion.IdUsuario = resultado.IdUsuario;
+                sesion.Usuario = Usuario;
+                var usuario = resultado;
+               sesion.empleado = usuario.Empleado;
                 // Aquí podrías navegar a otra vista, guardar sesión, etc.
                 _navigationService.NavigateTo<DashboardView>();
-                _mainViewModel.SetSidebarVisibility(true);
+             
                 EventBus.RaiseLoginSucceeded();
             }
             else

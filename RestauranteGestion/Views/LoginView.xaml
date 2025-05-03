@@ -10,7 +10,7 @@
              d:DesignWidth="800" d:DesignHeight="450"
              Background="#f5f5f5">
 
-    <Grid VerticalAlignment="Center" HorizontalAlignment="Center">
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" >
         <Border Margin="32"
                 Padding="32"
                 Background="{DynamicResource MaterialDesignCardBackground}"

@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="RestauranteGestion.Views.Dialog.EmpleadoDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" Background="White">
+
+    <Grid Margin="20">
+        <StackPanel>
+
+            <TextBlock Text="{Binding Titulo}"
+                       FontSize="20"
+                       FontWeight="SemiBold"
+                       Foreground="#FF3F51B5"
+                       Margin="0,0,0,20"/>
+
+            <TextBox Text="{Binding Empleado.Nombre}" 
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                     materialDesign:HintAssist.Hint="Nombre"
+                     Margin="0,0,0,15"/>
+
+            <TextBox Text="{Binding Empleado.Apellido}" 
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                     materialDesign:HintAssist.Hint="Apellido"
+                     Margin="0,0,0,15"/>
+
+            <TextBox Text="{Binding Empleado.Telefono}" 
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                     materialDesign:HintAssist.Hint="Teléfono"
+                     Margin="0,0,0,15"/>
+
+            <TextBox Text="{Binding Empleado.Direccion}" 
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                     materialDesign:HintAssist.Hint="Dirección"
+                     Margin="0,0,0,15"/>
+
+            <TextBox Text="{Binding Empleado.Email}" 
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                     materialDesign:HintAssist.Hint="Correo electrónico"
+                     Margin="0,0,0,15"/>
+
+            <DatePicker SelectedDate="{Binding Empleado.FechaNacimiento}"
+                        Style="{StaticResource MaterialDesignDatePicker}"
+                        materialDesign:HintAssist.Hint="Fecha de nacimiento"
+                        Margin="0,0,0,15"/>
+
+            <ComboBox ItemsSource="{Binding Cargos}"
+                      SelectedItem="{Binding CargoSeleccionado}"
+                      DisplayMemberPath="NombreCargo"
+                      Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                      materialDesign:HintAssist.Hint="Cargo"
+                      Margin="0,0,0,20"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Cancelar" Command="{Binding CancelarCommand}" 
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                        Margin="0,0,10,0" Width="100"/>
+                <Button Content="Guardar" Command="{Binding GuardarCommand}" 
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Background="#FF3F51B5" Foreground="White"
+                        Width="100"/>
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</UserControl>

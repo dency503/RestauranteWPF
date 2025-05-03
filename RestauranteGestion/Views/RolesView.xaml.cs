@@ -16,14 +16,13 @@ using System.Windows.Shapes;
 namespace RestauranteGestion.Views
 {
     /// <summary>
-    /// Lógica de interacción para PerfilView.xaml
+    /// Lógica de interacción para RolesView.xaml
     /// </summary>
-    public partial class PerfilView : UserControl
+    public partial class RolesView : UserControl
     {
-        public PerfilView()
+        public RolesView()
         {
             InitializeComponent();
-            DataContext = new ViewModels.PerfilViewModel();
         }
     }
 }

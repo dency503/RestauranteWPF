@@ -1,0 +1,98 @@
+﻿<UserControl x:Class="RestauranteGestion.Views.ConfiguracionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Background="#80000000">
+    <!-- Fondo semi-transparente -->
+
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="1000" Height="600">
+        <Border Background="White" CornerRadius="10" Padding="0" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <!-- Header -->
+                    <RowDefinition Height="*"/>
+                    <!-- Contenido -->
+                </Grid.RowDefinitions>
+
+                <!-- Header -->
+                <Grid Background="#2D2D30" Height="50">
+                    <TextBlock Text="Configuraciones" Foreground="White" VerticalAlignment="Center" Margin="10" FontWeight="Bold" FontSize="18"/>
+                    <Button Content="✖" 
+                            
+                            Width="30" Height="30" 
+                            Command="{Binding CerrarConfiguracionCommand}"
+                            Background="Transparent" 
+                            BorderBrush="Transparent"
+                            Foreground="White" 
+                            HorizontalAlignment="Right" 
+                            VerticalAlignment="Center" 
+                            Margin="0,0,10,0"/>
+                </Grid>
+
+                <!-- Cuerpo -->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="220"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Sidebar -->
+                    <Border Background="#3E3E42" >
+                        <StackPanel VerticalAlignment="Top" Margin="10" >
+                            <Button Content="General" 
+                                    Command="{Binding CambiarVistaCommand}" 
+                                    CommandParameter="General"
+                                    Style="{StaticResource MaterialDesignFlatButton}" 
+                                    Foreground="White" />
+
+                            <Button Content="Usuarios" 
+                                    Command="{Binding CambiarVistaCommand}" 
+                                    CommandParameter="Usuarios"
+                                    Style="{StaticResource MaterialDesignFlatButton}" 
+                                    Foreground="White" />
+
+                            <Button Content="Roles"
+                                    Command="{Binding CambiarVistaCommand}" 
+                                    CommandParameter="Roles"
+                                    Style="{StaticResource MaterialDesignFlatButton}" 
+                                    Foreground="White" />
+
+                            <Button Content="Permisos"
+                                    Command="{Binding CambiarVistaCommand}" 
+                                    CommandParameter="Permisos"
+                                    Style="{StaticResource MaterialDesignFlatButton}" 
+                                    Foreground="White" />
+
+                            <Button Content="Empleados"
+                                    Command="{Binding CambiarVistaCommand}" 
+                                    CommandParameter="Empleados"
+                                    Style="{StaticResource MaterialDesignFlatButton}" 
+                                    Foreground="White" />
+
+                            <Button Content="Cargos"
+                                    Command="{Binding CambiarVistaCommand}" 
+                                    CommandParameter="Cargos"
+                                    Style="{StaticResource MaterialDesignFlatButton}" 
+                                    Foreground="White" />
+
+                            <Button Content="Proveedores"
+                                    Command="{Binding CambiarVistaCommand}" 
+                                    CommandParameter="Proveedores"
+                                    Style="{StaticResource MaterialDesignFlatButton}" 
+                                    Foreground="White" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Contenido dinámico -->
+                    <Border Grid.Column="1" Background="White" Padding="20">
+                        <ContentControl Content="{Binding VistaActual}"/>
+                    </Border>
+
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

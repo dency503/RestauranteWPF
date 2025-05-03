@@ -13,7 +13,7 @@ namespace RestauranteGestion.SesionManager
     {
         private static Sesion _instance;
         private static readonly object _lock = new object();
-        public Empleados empleado;
+        public Empleado empleado;
         String _Usuario;
         String _Contraseña;
 
@@ -27,6 +27,7 @@ namespace RestauranteGestion.SesionManager
             get => _Contraseña;
             set => _Contraseña = value;
         }
+        public int IdUsuario { get; internal set; }
 
         public static Sesion ObtenerInstancia()
         {
@@ -42,7 +43,7 @@ namespace RestauranteGestion.SesionManager
             }
             return _instance;
         }
-        private Sesion() { }
+        private Sesion() { }/*
         public Boolean ValidarPermiso(Int32 pIDOpcion)
         {
             Boolean Resultado = false;
@@ -54,17 +55,17 @@ namespace RestauranteGestion.SesionManager
             Sentencia.Append("where b.Usuario = '" + _Usuario + "'");
             Sentencia.Append("AND a.IDOpcion=" + pIDOpcion.ToString() + ";");
             RestauranteGestion.Core.DataAccess.DBOperacion oOperacion = new DBOperacion();
-            Result = oOperacion.Consultar(Sentencia.ToString());
+            /*Result = oOperacion.Consultar(Sentencia.ToString());
             if (Result.Rows.Count > 0)
             {
                 Resultado = true;
             }
             if (!Resultado)
             {
-                MessageBox.Show("Acceso denegado");
+               
             }
 
             return Resultado;
-        }
+        }*/
     }
 }

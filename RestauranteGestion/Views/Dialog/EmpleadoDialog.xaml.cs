@@ -13,17 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace RestauranteGestion.Views
+namespace RestauranteGestion.Views.Dialog
 {
     /// <summary>
-    /// Lógica de interacción para PerfilView.xaml
+    /// Lógica de interacción para EmpleadoDialog.xaml
     /// </summary>
-    public partial class PerfilView : UserControl
+    public partial class EmpleadoDialog : UserControl
     {
-        public PerfilView()
+        public EmpleadoDialog()
         {
             InitializeComponent();
-            DataContext = new ViewModels.PerfilViewModel();
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using RestauranteGestion;
 using RestauranteGestion.Services;
+using RestauranteGestion.ViewModels;
 using RestauranteGestion.ViewModels.Base;
 using RestauranteGestion.Views;
 
@@ -15,17 +16,40 @@ public class MainViewModel : ViewModelBase
         get => _isSidebarVisible;
         set { _isSidebarVisible = value; OnPropertyChanged(); }
     }
+    private object _currentView;
+
+    public object CurrentView
+    {
+        get => _currentView;
+        set
+        {
+            _currentView = value;
+            OnPropertyChanged(nameof(CurrentView));
+        }
+    }
 
     public MainViewModel()
     {
-        IsSidebarVisible = false;
+        IsSidebarVisible = true;
         _navigationService = ServiceLocator.NavigationService;
         ServiceLocator.MainViewModel = this;
         // Registrar el MainViewModel en el ServiceLocator
-        EventBus.LoginSucceeded += () => IsSidebarVisible = true;
+        EventBus.LoginSucceeded += () => IsSidebarVisible = false;
+        CurrentView = new LoginViewModel();
     }
 
     private ICommand _navigateCommand;
+
+    private ICommand _exitCommand;
+    public ICommand ExitCommand => _exitCommand ??= new RelayCommand(_ => ExitApplication());
+
+
+    private void ExitApplication()
+    {
+        IsSidebarVisible = true;
+        CurrentView = new LoginViewModel();
+    }
+
     public ICommand NavigateCommand => _navigateCommand ??= new RelayCommand<string>(NavigateTo);
 
     private void NavigateTo(string viewName)
@@ -59,8 +83,7 @@ public class MainViewModel : ViewModelBase
         }
     }
 
-    public void SetSidebarVisibility(bool isVisible)
-    {
-        IsSidebarVisible = isVisible;
-    }
+ 
+
+    
 }

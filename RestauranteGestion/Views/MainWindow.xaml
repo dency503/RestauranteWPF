@@ -6,10 +6,9 @@
         xmlns:views="clr-namespace:RestauranteGestion.Views"
         Title="Restaurante Gestión" 
         Height="768" Width="1024"
-          WindowState="Maximized"
+        WindowState="Maximized"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="SingleBorderWindow"
-       >
+        WindowStyle="SingleBorderWindow">
 
     <!-- Estilos para la ventana -->
     <Window.Resources>
@@ -28,8 +27,8 @@
                         <Border Background="{TemplateBinding Background}" 
                                 CornerRadius="4">
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                            VerticalAlignment="Center"
-                                            Margin="{TemplateBinding Padding}"/>
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Margin="{TemplateBinding Padding}"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -42,106 +41,125 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
-
     <Grid>
-        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="220"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        <!-- Overlay fuera del Grid principal para que cubra toda la ventana -->
+        <Grid Background="#80000000" 
+         Visibility="{Binding IsSidebarVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+          Panel.ZIndex="1000">
+            <!-- El Grid ocupa todo el tamaño disponible -->
+            <Grid >
+                <Border Grid.Column="1" Background="#FFF5F5F5" CornerRadius="0,10,10,0" >
+                    <ContentControl x:Name="MainContent1" Content="{Binding CurrentView}"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <ContentControl.Resources>
+                            <DataTemplate DataType="{x:Type viewModels:LoginViewModel}">
+                                <views:LoginView />
+                            </DataTemplate>
+                            <!-- Agrega más DataTemplates para otras vistas si es necesario -->
+                        </ContentControl.Resources>
+                    </ContentControl>
+                </Border>
+            </Grid>
+        </Grid>
 
-        <!-- Menú lateral -->
-        <Border Grid.Column="0" Background="#FF2D2D30" CornerRadius="10,0,0,10" Visibility="{Binding IsSidebarVisible, Converter={StaticResource BoolToVisibilityConverter}}">
-            <StackPanel Margin="5">
-                <TextBlock Text="Restaurante Gestión" 
+        <!-- Contenedor principal de la ventana -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Menú lateral -->
+            <Border Grid.Column="0" Background="#FF2D2D30" CornerRadius="10,0,0,10"
+                >
+                <StackPanel Margin="5">
+                    <TextBlock Text="Restaurante Gestión" 
                          Foreground="White" 
                          FontSize="18" 
                          FontWeight="Bold"
                          Margin="10,20,10,30"
                          HorizontalAlignment="Center"/>
 
-                <!-- Botones de navegación con comandos MVVM -->
-                <Button Content="📊 Dashboard" 
-                      Style="{StaticResource MenuButtonStyle}"
-                      Command="{Binding NavigateCommand}"
-                      CommandParameter="DashboardView"/>
+                    <!-- Botones de navegación con comandos MVVM -->
+                    <Button Content="📊 Dashboard" 
+                        Style="{StaticResource MenuButtonStyle}"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="DashboardView"/>
 
-                <Button Content="🍽️ Mesas" 
-                      Style="{StaticResource MenuButtonStyle}"
-                      Command="{Binding NavigateCommand}"
-                      CommandParameter="MesasView"/>
+                    <Button Content="🍽️ Mesas" 
+                        Style="{StaticResource MenuButtonStyle}"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="MesasView"/>
 
-                <Button Content="💰 Ventas" 
-                      Style="{StaticResource MenuButtonStyle}"
-                      Command="{Binding NavigateCommand}"
-                      CommandParameter="VentasView"/>
+                    <Button Content="💰 Ventas" 
+                        Style="{StaticResource MenuButtonStyle}"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="VentasView"/>
 
-                <Button Content="📦 Inventario Productos"
-        Style="{StaticResource MenuButtonStyle}"
-        Command="{Binding NavigateCommand}"
-        CommandParameter="InventarioProductosView"/>
+                    <Button Content="📦 Inventario Productos"
+                        Style="{StaticResource MenuButtonStyle}"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="InventarioProductosView"/>
 
-                <Button Content="🥬 Inventario Ingredientes"
-        Style="{StaticResource MenuButtonStyle}"
-        Command="{Binding NavigateCommand}"
-        CommandParameter="InventarioIngredientesView"/>
+                    <Button Content="🥬 Inventario Ingredientes"
+                        Style="{StaticResource MenuButtonStyle}"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="InventarioIngredientesView"/>
 
+                    <Button Content="👨‍🍳 Recetas" 
+                        Style="{StaticResource MenuButtonStyle}"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="RecetasView"/>
 
-                <Button Content="👨‍🍳 Recetas" 
-                      Style="{StaticResource MenuButtonStyle}"
-                      Command="{Binding NavigateCommand}"
-                      CommandParameter="RecetasView"/>
+                    <Button Content="📊 Reportes" 
+                        Style="{StaticResource MenuButtonStyle}"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="ReportesView"/>
 
-                <Button Content="📊 Reportes" 
-                      Style="{StaticResource MenuButtonStyle}"
-                      Command="{Binding NavigateCommand}"
-                      CommandParameter="ReportesView"/>
+                    <Button Content="⚙️ Configuración" 
+                        Style="{StaticResource MenuButtonStyle}"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="ConfiguracionView"/>
 
-                <Button Content="⚙️ Configuración" 
-                      Style="{StaticResource MenuButtonStyle}"
-                      Command="{Binding NavigateCommand}"
-                      CommandParameter="ConfiguracionView"/>
+                    <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,20">
+                        <Button Content="👤 Perfil" 
+                            Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding NavigateCommand}"
+                            CommandParameter="PerfilView"/>
 
-                <!-- Espacio para expandir -->
-                <StackPanel VerticalAlignment="Bottom" Margin="0,0,0,20">
-                    <Button Content="👤 Perfil" 
-                          Style="{StaticResource MenuButtonStyle}"
-                          Command="{Binding NavigateCommand}"
-                          CommandParameter="PerfilView"/>
-
-                    <Button Content="🚪 Salir" 
-                          Style="{StaticResource MenuButtonStyle}"
-                          Command="{Binding ExitCommand}"/>
+                        <Button Content="🚪 Salir" 
+                            Style="{StaticResource MenuButtonStyle}"
+                            Command="{Binding ExitCommand}"/>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
-        </Border>
+            </Border>
 
-        <!-- Área de contenido principal con ContentControl para MVVM -->
-        <!-- Área de contenido principal con ContentControl para MVVM -->
-        <Border Grid.Column="1" Background="#FFF5F5F5" CornerRadius="0,10,10,0">
-            <ContentControl x:Name="MainContent" Content="{Binding CurrentView}">
-                <ContentControl.Resources>
-                    <DataTemplate DataType="{x:Type viewModels:DashboardViewModel}">
-                        <views:DashboardView />
-                    </DataTemplate>
-                    <DataTemplate DataType="{x:Type viewModels:ProductosViewModel}">
-                        <views:InventarioProductosView />
-                    </DataTemplate>
-                    <DataTemplate DataType="{x:Type viewModels:IngredientesViewModel}">
-                        <views:InventarioIngredientesView />
-                    </DataTemplate>
-                    <!-- Agrega más DataTemplates para otras vistas si es necesario -->
-                </ContentControl.Resources>
-            </ContentControl>
-        </Border>
+            <!-- Área de contenido principal -->
+            <Border Grid.Column="1" Background="#FFF5F5F5" CornerRadius="0,10,10,0">
+                <ContentControl x:Name="MainContent" Content="{Binding CurrentView}">
+                    <ContentControl.Resources>
+                        <DataTemplate DataType="{x:Type viewModels:DashboardViewModel}">
+                            <views:DashboardView />
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type viewModels:ProductosViewModel}">
+                            <views:InventarioProductosView />
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type viewModels:IngredientesViewModel}">
+                            <views:InventarioIngredientesView />
+                        </DataTemplate>
+                        <!-- Agrega más DataTemplates para otras vistas si es necesario -->
+                    </ContentControl.Resources>
+                </ContentControl>
+            </Border>
 
-        <!-- Botón para cerrar la ventana (opcional) -->
-        <Button Content="X" 
-              Width="30" Height="30" 
-              HorizontalAlignment="Right" VerticalAlignment="Top"
-              Margin="0,10,10,0" FontWeight="Bold"
-              Command="{Binding ExitCommand}"
-              Style="{StaticResource MenuButtonStyle}"/>
-        
+            <!-- Botón de cerrar ventana -->
+            <Button Content="X" 
+                Width="30" Height="30" 
+                HorizontalAlignment="Right" VerticalAlignment="Top"
+                Margin="0,10,10,0" FontWeight="Bold"
+                Command="{Binding ExitCommand}"
+                Style="{StaticResource MenuButtonStyle}"/>
+
+        </Grid>
     </Grid>
 </Window>

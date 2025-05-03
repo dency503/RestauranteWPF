@@ -4,11 +4,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+              xmlns:converters="clr-namespace:RestauranteGestion.Converters"
              mc:Ignorable="d"
              Background="White"
-             d:DesignHeight="650.237" d:DesignWidth="815.254">
+             d:DesignHeight="769.263" d:DesignWidth="815.254">
 
-    <Grid >
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+    </UserControl.Resources>
+
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="35*"/>
@@ -16,7 +22,7 @@
         </Grid.RowDefinitions>
 
         <!-- Encabezado -->
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,24"  Background="DarkBlue">
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,24" Background="DarkBlue">
             <Border Width="64" Height="64" CornerRadius="32" Background="{DynamicResource PrimaryHueMidBrush}" VerticalAlignment="Center">
                 <materialDesign:PackIcon Kind="AccountCircle" Width="32" Height="32" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
@@ -26,6 +32,17 @@
                 <TextBlock Text="{Binding Cargo}" Style="{StaticResource MaterialDesignBody2TextBlock}" Foreground="Gray"/>
                 <TextBlock Text="{Binding Email}" Style="{StaticResource MaterialDesignCaptionTextBlock}" Foreground="Gray"/>
             </StackPanel>
+
+            <!-- Botón Editar Perfil -->
+            <Button Content="Editar Perfil"
+                    Command="{Binding EditarPerfilCommand}"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    Background="{DynamicResource PrimaryHueMidBrush}"
+                    Foreground="DarkBlue"
+                    Margin="16,0,0,0"
+                    VerticalAlignment="Center"
+                    Width="120"
+                    Height="32"/>
         </StackPanel>
 
         <!-- Contenido -->
@@ -48,20 +65,48 @@
                         </Grid.RowDefinitions>
 
                         <!-- Columna izquierda -->
-                        <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Nombre}" materialDesign:HintAssist.Hint="Nombre"   Style="{StaticResource MaterialDesignOutlinedTextBox}"  
-                                 Margin="0,0,10,10" />
-                        <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Telefono}" materialDesign:HintAssist.Hint="Teléfono"  Style="{StaticResource MaterialDesignOutlinedTextBox}" 
-                                 Margin="0,0,10,10" />
+                        <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Nombre}" 
+                                 materialDesign:HintAssist.Hint="Nombre"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+                                 Margin="0,0,10,10"
+                                 IsReadOnly="{Binding EsEditable, Converter={StaticResource InverseBooleanConverter}}" />
+
+                        <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding Telefono}" 
+                                 materialDesign:HintAssist.Hint="Teléfono"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+                                 Margin="0,0,10,10"
+                                 IsReadOnly="{Binding EsEditable, Converter={StaticResource InverseBooleanConverter}}" />
+
                         <DatePicker Grid.Row="2" Grid.Column="0" SelectedDate="{Binding FechaNacimiento}"
                                     materialDesign:HintAssist.Hint="Fecha de Nacimiento"
-                                    Margin="0,0,10,0" Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
+                                    Margin="0,0,10,0"
+                                    Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                                    IsEnabled="{Binding EsEditable}" />
 
                         <!-- Columna derecha -->
-                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Apellido}" materialDesign:HintAssist.Hint="Apellido"  Style="{StaticResource MaterialDesignOutlinedTextBox}" 
-                                 Margin="0,0,0,10" />
-                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Direccion}" materialDesign:HintAssist.Hint="Dirección"  Style="{StaticResource MaterialDesignOutlinedTextBox}" 
-                                 Margin="0,0,0,10" />
+                        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Apellido}" 
+                                 materialDesign:HintAssist.Hint="Apellido"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+                                 Margin="0,0,0,10"
+                                 IsReadOnly="{Binding EsEditable, Converter={StaticResource InverseBooleanConverter}}" />
+
+                        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Direccion}" 
+                                 materialDesign:HintAssist.Hint="Dirección"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+                                 Margin="0,0,0,10"
+                                 IsReadOnly="{Binding EsEditable, Converter={StaticResource InverseBooleanConverter}}" />
                     </Grid>
+
+                    <!-- Botón Guardar Cambios -->
+                    <Button Content="Guardar Cambios"
+                            Command="{Binding GuardarCambiosCommand}"
+                            Visibility="{Binding EsEditable, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Background="{DynamicResource PrimaryHueMidBrush}"
+                            Foreground="DarkBlue"
+                            HorizontalAlignment="Right"
+                            Margin="0,20,0,0"
+                            Width="150" Height="40"/>
                 </StackPanel>
             </materialDesign:Card>
 
@@ -72,10 +117,9 @@
                     <TabItem Header="Credenciales">
                         <StackPanel Margin="0,10,0,0">
                             <TextBox Text="{Binding NombreUsuario}" 
-                                      Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+                                     Style="{StaticResource MaterialDesignOutlinedTextBox}" 
                                      materialDesign:HintAssist.Hint="Nombre de usuario"
                                      IsReadOnly="True"
-                                     
                                      Margin="0,0,0,10"/>
 
                             <PasswordBox materialDesign:HintAssist.Hint="Contraseña actual"
@@ -92,6 +136,7 @@
 
                             <Button Content="Cambiar Contraseña" 
                                     HorizontalAlignment="Right"
+                                     Command="{Binding CambiarContrasenaCommand}"
                                     Style="{StaticResource MaterialDesignRaisedButton}"
                                     Background="{DynamicResource PrimaryHueMidBrush}"
                                     Foreground="DarkBlue"/>

@@ -15,6 +15,7 @@ namespace RestauranteGestion.Models
         public int IdEmpleado { get; set; }
         public string NombreEmpleado { get; set; }
         public string Rol { get; set; }
+        public Empleado Empleado { get; internal set; }
     }
 
 }
